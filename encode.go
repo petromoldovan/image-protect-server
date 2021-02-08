@@ -1,13 +1,23 @@
 package steganography
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"strconv"
 )
 
-func encodeMessage(cimg *image.RGBA, str string) {
-	encodedPhrase := str
+// How it works:
+// 1. go through each pixel
+// 2. for each pixel extract red, green, blue color codes
+// 3. transfer them into binary
+// 4. change the least significant bit to one of the encodeMessage's bit
+// 5. rewrite pixel color with the new one
+
+func encodeMessage(cimg *image.RGBA, binaryString string) {
+	encodedPhrase := binaryString
+
+	fmt.Println("encodedPhrase", encodedPhrase)
 	var rUpdated, gUpdated, bUpdated string
 	for i := 0; i < cimg.Bounds().Max.X; i++ {
 		for j := 0; j < cimg.Bounds().Max.Y; j++ {
@@ -16,7 +26,6 @@ func encodeMessage(cimg *image.RGBA, str string) {
 			}
 
 			r, g, b, a := cimg.At(i, j).RGBA()
-
 			// get bit representations of colors
 			rB := strconv.FormatInt(int64(r), 2)
 			gB := strconv.FormatInt(int64(g), 2)
@@ -26,7 +35,6 @@ func encodeMessage(cimg *image.RGBA, str string) {
 			if encodedPhrase != "" {
 				rUpdated = rB[:len(rB)-1] + popFirstChar(&encodedPhrase)
 			}
-
 			if encodedPhrase != "" {
 				gUpdated = rB[:len(gB)-1] + popFirstChar(&encodedPhrase)
 			}
