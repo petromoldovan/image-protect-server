@@ -1,7 +1,6 @@
 package steganography
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"strconv"
@@ -17,7 +16,6 @@ import (
 func encodeMessage(cimg *image.RGBA, binaryString string) {
 	encodedPhrase := binaryString
 
-	fmt.Println("encodedPhrase", encodedPhrase)
 	var rUpdated, gUpdated, bUpdated string
 	for i := 0; i < cimg.Bounds().Max.X; i++ {
 		for j := 0; j < cimg.Bounds().Max.Y; j++ {
